@@ -3,43 +3,36 @@ import { Form, Input, Button, Checkbox } from "antd";
 import styled from "styled-components";
 import axios from "axios";
 
+const FormWrapper = styled(Form)`
+  width: 300px;
+`;
+
 const SignupForm: React.FC<any> = ({ setIsLogin }) => {
   const handleSignup = async (values: any) => {
-    const { email, password, confirmPassword, agreed } = values;
-
     try {
       const response = await axios.get(
-        `http://localhost:4000/users?email=${email}`
+        `http://localhost:4000/users?email=${values.email}`
       );
 
-      // TODO: 데이터베이스에서 email과 password 기반으로 찾아서 이미 존재하는지 확인 후, 존재하는 경우 "이미 존재하는 아이디입니다." alert
-      if (response.data.length >= 1) {
-        alert("이미 존재하는 아이디입니다.");
+      if (response.data.length > 0) {
+        alert("이미 존재 유저");
         return false;
       }
 
-      // 회원가입 가능
+      // 회원가입 로직을 여기에 구현
       await axios.post("http://localhost:4000/users", {
-        email: email,
-        password: password,
+        email: values.email,
+        password: values.password,
       });
 
-      // TODO: 성공 시(1), "회원가입이 성공적으로 처리되었습니다. 로그인 페이지로 이동합니다." alert
       alert(
         "회원가입이 성공적으로 처리되었습니다. 로그인 페이지로 이동합니다."
       );
-
-      // TODO: 성공 시(2), "로그인할 수 있도록 세팅"
       setIsLogin(true);
-
-      // 로그인 페이지로 이동
     } catch (error) {
-      // TODO: 네트워크 등 기타 문제인 경우, "일시적인 오류가 발생하였습니다. 고객센터로 연락주세요." alert
-      alert("일시적인 오류가 발생하였습니다. 고객센터로 연락주세요.");
+      alert("처리중 오류가 발생하였습니다. 다시 시도해주세요.");
       return false;
     }
-
-    // const response = await axios.get()~~
   };
 
   return (
@@ -101,7 +94,3 @@ const SignupForm: React.FC<any> = ({ setIsLogin }) => {
 };
 
 export default SignupForm;
-
-const FormWrapper = styled(Form)`
-  width: 300px;
-`;

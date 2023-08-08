@@ -10,14 +10,10 @@ const AuthMain: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   const handleGoToLogin = () => {
-    // alert("TODO 요구사항에 맞추어 기능을 완성해주세요.");
-    // TODO: 선택 시, LoginForm이 보이도록 제어
     setIsLogin(true);
   };
 
   const handleGoToSignup = () => {
-    // alert("TODO 요구사항에 맞추어 기능을 완성해주세요.");
-    // TODO: 선택 시, SignupForm이 보이도록 제어
     setIsLogin(false);
   };
 
